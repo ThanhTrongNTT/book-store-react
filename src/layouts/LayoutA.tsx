@@ -1,3 +1,5 @@
+import Footer from "@/modules/partials/Footer/Footer";
+import Header from "@/modules/partials/Header/Header";
 import { Layout } from "antd";
 import { ReactNode } from "react";
 const { Content } = Layout;
@@ -11,9 +13,11 @@ const LayoutA = (props: LayoutAProps) => {
 
   return (
     <Layout>
-      <Layout>
+      <div className="bg-neutral-100">
+        <Header />
         <Content>{children}</Content>
-      </Layout>
+        <Footer />
+      </div>
     </Layout>
   );
 };
