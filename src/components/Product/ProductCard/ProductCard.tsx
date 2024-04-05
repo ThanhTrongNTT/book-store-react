@@ -1,9 +1,15 @@
+import Modal from "@/components/Modal/Modal";
 import { Book } from "@/types/book";
+import { useState } from "react";
 import { FaShareFromSquare } from "react-icons/fa6";
 type ProductCardProps = {
   book: Book;
 };
 const ProductCard = ({ book }: ProductCardProps) => {
+  const [showModal, setShowModal] = useState(false);
+  const onClose = () => {
+    setShowModal(false);
+  };
   return (
     <>
       <div
@@ -22,10 +28,13 @@ const ProductCard = ({ book }: ProductCardProps) => {
             <p className="font-bold">Author:</p> {book.author_name}
           </p>
           <p className="text-sm">
-            <p className="font-bold">Publish Year:</p> {book.publish_year}
+            <p className="font-bold">Publish Year:</p> {book.first_publish_year}
           </p>
           <div className="flex justify-end content-center text-red-600 cursor-pointer">
-            <FaShareFromSquare />
+            <button onClick={() => setShowModal(true)}>
+              <FaShareFromSquare />
+            </button>
+            <Modal isVisible={showModal} onClose={onClose} />
           </div>
         </div>
       </div>

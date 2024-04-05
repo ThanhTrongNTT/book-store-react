@@ -4,7 +4,7 @@ export interface Book {
   edition_count: number;
   cover_i: number;
   cover_edition_key: string;
-  publish_year: number;
+  first_publish_year: number;
   author_name: string;
   subject: string[];
   ia_collection: string[];

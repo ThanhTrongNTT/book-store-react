@@ -95,7 +95,7 @@ const Product = () => {
   //
   useEffect(() => {
     const getAllBook = async () => {
-      const res = await API.app.searchBook("", 6, 0);
+      const res = await API.app.searchBook("lord", 6, 0);
       const data: Subjects = res.data;
       if (res !== null && data !== null) {
         setTotalElement(data.docs.length);
