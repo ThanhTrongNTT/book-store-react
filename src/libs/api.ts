@@ -58,10 +58,10 @@ API.apiInstance.interceptors.request.use(
     // spinning start to show
     // UPDATE: Add this code to show global loading indicator
     requestCount++;
-    const loader = document.querySelector(".loader");
-    if (loader && loader.classList.contains("loader--hidden")) {
-      loader.classList.remove("loader--hidden");
-    }
+    // const loader = document.querySelector(".loader");
+    // if (loader && loader.classList.contains("loader--hidden")) {
+    //   loader.classList.remove("loader--hidden");
+    // }
     const token = window.localStorage.token;
     if (token) {
       config.headers.Authorization = `token ${token}`;
@@ -81,12 +81,12 @@ API.apiInstance.interceptors.response.use(
     requestCount--;
 
     // Hide loader if all requests are finished
-    if (requestCount === 0) {
-      const loader = document.querySelector(".loader");
-      if (loader && !loader.classList.contains("loader--hidden")) {
-        loader.classList.add("loader--hidden");
-      }
-    }
+    // if (requestCount === 0) {
+    //   const loader = document.querySelector(".loader");
+    //   if (loader && !loader.classList.contains("loader--hidden")) {
+    //     loader.classList.add("loader--hidden");
+    //   }
+    // }
     return response;
   },
   function (error) {

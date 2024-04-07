@@ -1,6 +1,7 @@
+import Skeleton from "@/components/Skeleton/Skeleton";
 import { Book } from "@/types/book";
 import React from "react";
-import ProductCard from "../ProductCard/ProductCard";
+const ProductCard = React.lazy(() => import("../ProductCard/ProductCard"));
 type ListProductProps = {
   bookList: Book[] | undefined;
 };
@@ -13,9 +14,22 @@ const ListProduct = ({ bookList }: ListProductProps) => {
           <h1 className="text-base text-red-600">View All</h1>
         </div>
         <div className="grid grid-cols-3">
-          {bookList
-            ? bookList.map((book: Book) => <ProductCard book={book} />)
-            : ""}
+          {bookList ? (
+            bookList.map((book: Book) => (
+              <>
+                <ProductCard book={book} />
+              </>
+            ))
+          ) : (
+            <>
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+            </>
+          )}
         </div>
       </div>
     </>
