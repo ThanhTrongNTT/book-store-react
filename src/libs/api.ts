@@ -21,8 +21,8 @@ const API = {
       GET_BOOK: (limit: number, page: number, q: string) =>
         `https://openlibrary.org/subjects/love.json?q=${q}&offset=${page * limit}&limit=${limit}`,
       GET_ALL_BOOK: "https://openlibrary.org/subjects/love.json",
-      SEARCH: (q: string, limit: number, page: number) =>
-        `https://openlibrary.org/search.json?q=${q}&limit=${limit}&offset=${page * limit}`,
+      SEARCH: (q: string, limit: number, page: number, fieldsString: string) =>
+        `https://openlibrary.org/search.json?q=${q}&offset=${page * limit}&fields=${fieldsString}&limit=${limit}`,
     },
   },
   app: {
@@ -42,10 +42,16 @@ const API = {
     searchBook: (
       q: string,
       limit: number,
-      page: number
+      page: number,
+      fieldsString: string
     ): Promise<AxiosResponse<Subjects>> => {
       return API.apiInstance.get(
-        API.API_PATH.BOOK.SEARCH(q === "" ? "ramdom" : q, limit, page)
+        API.API_PATH.BOOK.SEARCH(
+          q === "" ? "ramdom" : q.replaceAll(" ", "+"),
+          limit,
+          page - 1,
+          fieldsString
+        )
       );
     },
   },

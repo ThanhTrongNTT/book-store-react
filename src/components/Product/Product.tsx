@@ -12,12 +12,16 @@ const Product = () => {
   const [page, setPage] = useState(1);
   const [totalElement, setTotalElement] = useState(0);
   const [searchWord, setSearchWord] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Hanldes search word change
   const handleSearchWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    setPage(1);
     setSearchWord(e.target.value);
   };
+
+  const fieldsString =
+    "key,title,author_name,first_publish_year,subject,ia_collection,cover_i,cover_edition_key,edition_count";
 
   // Search Book
   // const searchBook = async () => {
@@ -42,13 +46,11 @@ const Product = () => {
   // Get book list
   const fetchBookList = async (page: number) => {
     try {
-      const res = await API.app.searchBook("", 6, page);
-      console.log(res);
-
+      const res = await API.app.searchBook(searchWord, 6, page, fieldsString);
       const data: Subjects = res.data;
       if (res !== null && data !== null) {
-        setBookList(data.docs);
-        console.log(bookList);
+        await setBookList(data.docs);
+        setTotalElement(data.numFound);
       }
     } catch (error) {
       console.log(error);
@@ -56,16 +58,18 @@ const Product = () => {
   };
 
   // Handle page change
-  const handlePageChange = (page: number) => {
+  const handlePageChange = async (page: number) => {
+    setIsLoaded(true);
     if (page < 1) {
       setPage(1);
-      fetchBookList(page - 1);
+      await fetchBookList(page - 1);
       console.log(page);
+      setIsLoaded(false);
       return;
     }
-    fetchBookList(page - 1);
+    await fetchBookList(page - 1);
     setPage(page);
-    console.log(page);
+    setIsLoaded(false);
   };
 
   // Categories
@@ -95,11 +99,13 @@ const Product = () => {
   //
   useEffect(() => {
     const getAllBook = async () => {
-      const res = await API.app.searchBook("lord", 6, 0);
+      setIsLoaded(true);
+      const res = await API.app.searchBook("", 6, 0, fieldsString);
       const data: Subjects = res.data;
       if (res !== null && data !== null) {
-        setTotalElement(data.docs.length);
+        setTotalElement(data.numFound);
         setBookList(data.docs);
+        setIsLoaded(false);
       }
     };
     getAllBook();
@@ -108,15 +114,17 @@ const Product = () => {
   // Call searchBook whenever searchWord changes
   useEffect(() => {
     const searchBook = async () => {
-      console.log(searchWord);
-      const res = await API.app.searchBook(searchWord, 6, 1);
+      setIsLoaded(true);
+      const res = await API.app.searchBook(searchWord, 6, page, fieldsString);
       const data: Subjects = res.data;
       if (res !== null && data !== null) {
-        console.log(data.docs);
+        setTotalElement(data.numFound);
+        setBookList(data.docs);
+        setIsLoaded(false);
       }
     };
     searchBook();
-  }, [searchWord]);
+  }, [page, searchWord]);
   return (
     <>
       <div className="flex p-10 mx-auto snap-start">
@@ -133,7 +141,7 @@ const Product = () => {
               searchWord={searchWord}
             />
           </div>
-          <ListProduct bookList={bookList} />
+          <ListProduct bookList={bookList} isLoaded={isLoaded} />
           <div className="m-4 mx-auto">
             <Pagination
               defaultCurrent={1}

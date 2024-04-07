@@ -1,11 +1,12 @@
 import SkeletonWithImage from "@/components/Skeleton/SkeletonWithImage";
 import { Book } from "@/types/book";
 import React from "react";
-const ProductCard = React.lazy(() => import("../ProductCard/ProductCard"));
+import ProductCard from "../ProductCard/ProductCard";
 type ListProductProps = {
   bookList: Book[] | undefined;
+  isLoaded: boolean;
 };
-const ListProduct = ({ bookList }: ListProductProps) => {
+const ListProduct = ({ bookList, isLoaded }: ListProductProps) => {
   return (
     <>
       <div className="border rounded-lg mx-10 bg-white">
@@ -14,20 +15,29 @@ const ListProduct = ({ bookList }: ListProductProps) => {
           <h1 className="text-base text-red-600">View All</h1>
         </div>
         <div className="grid grid-cols-3">
-          {bookList ? (
-            bookList.map((book: Book) => (
+          {isLoaded ? (
+            <>
+              <SkeletonWithImage key={1} />
+              <SkeletonWithImage key={2} />
+              <SkeletonWithImage key={3} />
+              <SkeletonWithImage key={4} />
+              <SkeletonWithImage key={5} />
+              <SkeletonWithImage key={6} />
+            </>
+          ) : bookList ? (
+            bookList.map((book: Book, index: number) => (
               <>
-                <ProductCard book={book} />
+                <ProductCard book={book} index={index} />
               </>
             ))
           ) : (
             <>
-              <SkeletonWithImage />
-              <SkeletonWithImage />
-              <SkeletonWithImage />
-              <SkeletonWithImage />
-              <SkeletonWithImage />
-              <SkeletonWithImage />
+              <SkeletonWithImage key={1} />
+              <SkeletonWithImage key={2} />
+              <SkeletonWithImage key={3} />
+              <SkeletonWithImage key={4} />
+              <SkeletonWithImage key={5} />
+              <SkeletonWithImage key={6} />
             </>
           )}
         </div>
