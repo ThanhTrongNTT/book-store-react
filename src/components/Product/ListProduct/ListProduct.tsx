@@ -1,4 +1,4 @@
-import Skeleton from "@/components/Skeleton/Skeleton";
+import SkeletonWithImage from "@/components/Skeleton/SkeletonWithImage";
 import { Book } from "@/types/book";
 import React from "react";
 const ProductCard = React.lazy(() => import("../ProductCard/ProductCard"));
@@ -22,12 +22,12 @@ const ListProduct = ({ bookList }: ListProductProps) => {
             ))
           ) : (
             <>
-              <Skeleton />
-              <Skeleton />
-              <Skeleton />
-              <Skeleton />
-              <Skeleton />
-              <Skeleton />
+              <SkeletonWithImage />
+              <SkeletonWithImage />
+              <SkeletonWithImage />
+              <SkeletonWithImage />
+              <SkeletonWithImage />
+              <SkeletonWithImage />
             </>
           )}
         </div>
