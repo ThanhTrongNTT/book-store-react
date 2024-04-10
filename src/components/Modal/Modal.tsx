@@ -2,8 +2,9 @@ import React from "react";
 type ModalProps = {
   isVisible: boolean;
   onClose: () => void;
+  children: React.ReactNode;
 };
-const Modal = ({ isVisible, onClose }: ModalProps) => {
+const Modal = ({ isVisible, onClose, children }: ModalProps) => {
   if (!isVisible) return null;
   return (
     <>
@@ -15,7 +16,7 @@ const Modal = ({ isVisible, onClose }: ModalProps) => {
           >
             X
           </button>
-          <div className="bg-white p-2 rounded">Modal</div>
+          <div className="bg-white p-2 rounded">{children}</div>
         </div>
       </div>
     </>

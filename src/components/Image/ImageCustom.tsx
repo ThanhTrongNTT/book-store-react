@@ -5,8 +5,18 @@ type ImageCustomProps = {
   height: number;
   width: number;
 };
+
+const DefaultImageSrc = "https://covers.openlibrary.org/b/id/12818862-M.jpg";
 const ImageCustom = (props: ImageCustomProps) => {
   const [loaded, setLoaded] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+
+  // Hàm xử lý khi hình ảnh không tải được
+  const handleImageLoadError = () => {
+    setLoadError(true); // Đánh dấu rằng đã xảy ra lỗi khi tải ảnh
+  };
+  // Kiểm tra nếu đã xảy ra lỗi khi tải ảnh, sử dụng ảnh mặc định
+  const imageSrc = loadError ? DefaultImageSrc : props.src;
   return (
     <div>
       {loaded ? null : (
@@ -17,10 +27,11 @@ const ImageCustom = (props: ImageCustomProps) => {
         </div>
       )}
       <img
-        src={props.src}
+        src={imageSrc}
         alt={props.alt}
         className={`h-90 w-48 object-cover rounded-md`}
         onLoad={() => setLoaded(true)}
+        onError={handleImageLoadError}
       />
     </div>
   );

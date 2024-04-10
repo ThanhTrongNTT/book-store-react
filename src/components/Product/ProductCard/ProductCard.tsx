@@ -3,6 +3,8 @@ import Modal from "@/components/Modal/Modal";
 import { Book } from "@/types/book";
 import { useEffect, useState } from "react";
 import { FaShareFromSquare } from "react-icons/fa6";
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaSquareXTwitter, FaLine } from "react-icons/fa6";
 type ProductCardProps = {
   book: Book;
   index: number;
@@ -39,22 +41,44 @@ const ProductCard = (props: ProductCardProps) => {
           loading="lazy"
         /> */}
         <div className="p-4 mx-5 space-y-10">
-          <h3 className="text-lg font-bold text-black">{props.book.title}</h3>
-          <span className="text-sm">
+          <h3 className="text-lg font-bold text-black h-1/3">
+            {props.book.title}
+          </h3>
+          <span className="text-lg">
             <p className="font-bold">Author:</p> {props.book.author_name}
           </span>
-          <span className="text-sm">
+          <span className="text-lg">
             <p className="font-bold">Publish Year:</p>{" "}
             {props.book.first_publish_year}
           </span>
           <div className="flex justify-start content-center text-2xl text-red-600 cursor-pointer">
             <button onClick={() => setShowModal(true)}>
-              <FaShareFromSquare />
+              <span className="flex gap-x-2 items-center">
+                <FaShareFromSquare /> <p>Share</p>
+              </span>
             </button>
           </div>
         </div>
       </div>
-      <Modal isVisible={showModal} onClose={onClose} />
+      <Modal isVisible={showModal} onClose={onClose}>
+        <div className="flex gap-x-10 text-5xl justify-center p-5">
+          <div className="text-blue-900 cursor-pointer">
+            <FaFacebook />
+          </div>
+          <div className="cursor-pointer">
+            <FaInstagram />
+          </div>
+          <div className="cursor-pointer">
+            <FaSquareXTwitter />
+          </div>
+          <div className="cursor-pointer">
+            <FaLinkedin />
+          </div>
+          <div className="text-green-700 cursor-pointer">
+            <FaLine />
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

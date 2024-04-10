@@ -1,154 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SideBar, { Category } from "../SideBar/SideBar";
 import ListProduct from "./ListProduct/ListProduct";
-import API from "@/libs/api";
 import { Pagination } from "antd";
 import { Book } from "@/types/book";
 import SearchBar from "../SearchBar/SearchBar";
-import { Subjects } from "@/types/subjects";
-
-const Product = () => {
-  const [bookList, setBookList] = useState<Book[]>();
-  const [page, setPage] = useState(1);
-  const [totalElement, setTotalElement] = useState(0);
-  const [searchWord, setSearchWord] = useState("");
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Hanldes search word change
-  const handleSearchWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPage(1);
-    setSearchWord(e.target.value);
-  };
-
-  const fieldsString =
-    "key,title,author_name,first_publish_year,subject,ia_collection,cover_i,cover_edition_key,edition_count";
-
-  // Search Book
-  // const searchBook = async () => {
-  //   console.log(searchWord);
-  //   const res = await API.app.searchBook(searchWord, 6, 1);
-  //   const data: Subjects = res.data;
-  //   if (res !== null && data !== null) {
-  //     console.log(data.docs);
-  //   }
-  // };
-
-  // // Get All books
-  // const getAllBook = async () => {
-  //   const res = await API.app.searchBook("", 6, 0);
-  //   const data: Subjects = res.data;
-  //   if (res !== null && data !== null) {
-  //     setTotalElement(data.docs.length);
-  //     setBookList(data.docs);
-  //   }
-  // };
-
-  // Get book list
-  const fetchBookList = async (page: number) => {
-    try {
-      const res = await API.app.searchBook(searchWord, 6, page, fieldsString);
-      const data: Subjects = res.data;
-      if (res !== null && data !== null) {
-        await setBookList(data.docs);
-        setTotalElement(data.numFound);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Handle page change
-  const handlePageChange = async (page: number) => {
-    setIsLoaded(true);
-    if (page < 1) {
-      setPage(1);
-      await fetchBookList(page - 1);
-      console.log(page);
-      setIsLoaded(false);
-      return;
-    }
-    await fetchBookList(page - 1);
-    setPage(page);
-    setIsLoaded(false);
-  };
-
-  // Categories
-  const [categories, setCategories] = useState<Category[]>([
-    { name: "All", isActive: true },
-    { name: "Love", isActive: false },
-    { name: "Poem", isActive: false },
-    { name: "Novel", isActive: false },
-    { name: "Science", isActive: false },
-    { name: "Ficton", isActive: false },
-    { name: "Non-Ficton", isActive: false },
-    { name: "Philosophy", isActive: false },
-    { name: "Biography", isActive: false },
-  ]);
-
-  // Handle nav item click
-  const handleNavItemClick = (index: number) => {
-    const updatedCatItems = categories.map((item, i) => {
-      if (i === index) {
-        return { ...item, isActive: !item.isActive };
-      }
-      return { ...item, isActive: false };
-    });
-    setCategories(updatedCatItems);
-  };
-
-  //
-  useEffect(() => {
-    const getAllBook = async () => {
-      setIsLoaded(true);
-      const res = await API.app.searchBook("", 6, 0, fieldsString);
-      const data: Subjects = res.data;
-      if (res !== null && data !== null) {
-        setTotalElement(data.numFound);
-        setBookList(data.docs);
-        setIsLoaded(false);
-      }
-    };
-    getAllBook();
-  }, []);
-
-  // Call searchBook whenever searchWord changes
-  useEffect(() => {
-    const searchBook = async () => {
-      setIsLoaded(true);
-      const res = await API.app.searchBook(searchWord, 6, page, fieldsString);
-      const data: Subjects = res.data;
-      if (res !== null && data !== null) {
-        setTotalElement(data.numFound);
-        setBookList(data.docs);
-        setIsLoaded(false);
-      }
-    };
-    searchBook();
-  }, [page, searchWord]);
+type ProductProps = {
+  categories: Category[];
+  handleNavItemClick: (index: number) => void;
+  handleSearchWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  searchWord: string;
+  bookList: Book[] | undefined;
+  isLoaded: boolean;
+  page: number;
+  totalElement: number;
+  limit: number;
+  handlePageChange: (page: number) => void;
+  handleLimitChange: (current: number, size: number) => void;
+};
+const Product = (props: ProductProps) => {
   return (
     <>
       <div className="flex p-10 mx-auto snap-start">
         {/* Side bar */}
         <SideBar
-          handleNavItemClick={handleNavItemClick}
-          categories={categories}
+          handleNavItemClick={props.handleNavItemClick}
+          categories={props.categories}
         />
         {/* List of products */}
         <div className="flex flex-col">
           <div className="content-center items-center">
             <SearchBar
-              handleSearchWordChange={handleSearchWordChange}
-              searchWord={searchWord}
+              handleSearchWordChange={props.handleSearchWordChange}
+              searchWord={props.searchWord}
             />
           </div>
-          <ListProduct bookList={bookList} isLoaded={isLoaded} />
+          <ListProduct
+            bookList={props.bookList}
+            isLoaded={props.isLoaded}
+            limit={props.limit}
+          />
           <div className="m-4 mx-auto">
             <Pagination
               defaultCurrent={1}
-              current={page}
-              pageSize={6}
-              total={totalElement}
-              onChange={handlePageChange}
+              current={props.page}
+              pageSize={props.limit}
+              total={props.totalElement}
+              onChange={props.handlePageChange}
+              showSizeChanger
+              onShowSizeChange={props.handleLimitChange}
+              pageSizeOptions={[6, 12, 24]}
             />
           </div>
         </div>

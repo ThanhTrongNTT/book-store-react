@@ -5,8 +5,9 @@ import ProductCard from "../ProductCard/ProductCard";
 type ListProductProps = {
   bookList: Book[] | undefined;
   isLoaded: boolean;
+  limit: number;
 };
-const ListProduct = ({ bookList, isLoaded }: ListProductProps) => {
+const ListProduct = ({ bookList, isLoaded, limit }: ListProductProps) => {
   return (
     <>
       <div className="border rounded-lg mx-10 bg-white">
@@ -17,27 +18,21 @@ const ListProduct = ({ bookList, isLoaded }: ListProductProps) => {
         <div className="grid grid-cols-3">
           {isLoaded ? (
             <>
-              <SkeletonWithImage key={1} />
-              <SkeletonWithImage key={2} />
-              <SkeletonWithImage key={3} />
-              <SkeletonWithImage key={4} />
-              <SkeletonWithImage key={5} />
-              <SkeletonWithImage key={6} />
+              {Array.from({ length: limit }).map((_, index) => (
+                <SkeletonWithImage key={index} />
+              ))}
             </>
           ) : bookList ? (
             bookList.map((book: Book, index: number) => (
               <>
-                <ProductCard book={book} index={index} />
+                <ProductCard key={index} book={book} index={index} />
               </>
             ))
           ) : (
             <>
-              <SkeletonWithImage key={1} />
-              <SkeletonWithImage key={2} />
-              <SkeletonWithImage key={3} />
-              <SkeletonWithImage key={4} />
-              <SkeletonWithImage key={5} />
-              <SkeletonWithImage key={6} />
+              {Array.from({ length: limit }).map((_, index) => (
+                <SkeletonWithImage key={index} />
+              ))}
             </>
           )}
         </div>

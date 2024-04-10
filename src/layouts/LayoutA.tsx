@@ -1,5 +1,5 @@
-import Footer from "@/modules/partials/Footer/Footer";
-import Header from "@/modules/partials/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
 import { Layout } from "antd";
 import { ReactNode } from "react";
 const { Content } = Layout;
