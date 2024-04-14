@@ -48,7 +48,7 @@ const Product = (props: ProductProps) => {
               onChange={props.handlePageChange}
               showSizeChanger
               onShowSizeChange={props.handleLimitChange}
-              pageSizeOptions={[6, 12, 24]}
+              pageSizeOptions={[3, 6, 12, 24]}
             />
           </div>
         </div>
