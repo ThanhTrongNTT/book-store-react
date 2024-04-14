@@ -20,10 +20,27 @@ const Dashboard = () => {
     setPage(current);
     setLimit(size);
   };
-  // Hanldes search word change
+  // Search
+  const handleSearchBook = async () => {
+    setIsLoaded(true);
+    const res = await API.app.searchBook(searchWord, limit, page, fieldsString);
+    const data: Subjects = res.data;
+    if (res !== null && data !== null) {
+      setTotalElement(data.numFound);
+      setBookList(data.docs);
+      setIsLoaded(false);
+    }
+  };
+
   const handleSearchWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPage(1);
     setSearchWord(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearchBook();
+    }
   };
 
   const fieldsString =
@@ -119,7 +136,8 @@ const Dashboard = () => {
       }
     };
     searchBook();
-  }, [page, searchWord, limit]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, limit]);
   return (
     <>
       <div className="font-inter flex flex-col justify-center">
@@ -128,6 +146,7 @@ const Dashboard = () => {
           categories={categories}
           handleNavItemClick={handleNavItemClick}
           handleSearchWordChange={handleSearchWordChange}
+          handleKeyDown={handleKeyDown}
           handlePageChange={handlePageChange}
           searchWord={searchWord}
           bookList={bookList}

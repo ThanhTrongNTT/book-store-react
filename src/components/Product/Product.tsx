@@ -8,6 +8,7 @@ type ProductProps = {
   categories: Category[];
   handleNavItemClick: (index: number) => void;
   handleSearchWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   searchWord: string;
   bookList: Book[] | undefined;
   isLoaded: boolean;
@@ -31,6 +32,7 @@ const Product = (props: ProductProps) => {
           <div className="content-center items-center">
             <SearchBar
               handleSearchWordChange={props.handleSearchWordChange}
+              handleKeyDown={props.handleKeyDown}
               searchWord={props.searchWord}
             />
           </div>

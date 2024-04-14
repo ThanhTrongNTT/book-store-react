@@ -3,6 +3,7 @@ import { FaSearch } from "react-icons/fa";
 type SearchBarProps = {
   searchWord: string;
   handleSearchWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const SearchBar = (props: SearchBarProps) => {
@@ -15,6 +16,7 @@ const SearchBar = (props: SearchBarProps) => {
         className="bg-transparent border-none h-full text-xl w-full ml-1 focus:outline-none"
         value={props.searchWord}
         onChange={(e) => props.handleSearchWordChange(e)}
+        onKeyDown={(e) => props.handleKeyDown(e)}
       />
     </div>
   );

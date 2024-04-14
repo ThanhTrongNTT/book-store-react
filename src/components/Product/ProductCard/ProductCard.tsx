@@ -46,7 +46,10 @@ const ProductCard = (props: ProductCardProps) => {
           src={imageScr} // use normal <img> attributes as props
         />
         <div className="flex flex-col p-4 mx-5 space-y-10 w-1/2 justify-between">
-          <h3 className="text-lg font-bold text-black h-1/3">
+          <h3
+            className="text-lg font-bold text-black h-1/3"
+            title={props.book.title}
+          >
             {shortenText(props.book.title, MAX_LENGTH_TITLE)}
           </h3>
           <div className="flex-1">
