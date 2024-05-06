@@ -11,7 +11,7 @@ const ImageCustom = (props: ImageCustomProps) => {
       {loaded ? null : (
         <div className="h-full flex justify-center items-center content-center">
           <div
-            className={`border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600`}
+            className={`border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-primary`}
           />
         </div>
       )}

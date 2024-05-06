@@ -1,4 +1,4 @@
-import { Subjects } from "@/types/subjects";
+import { SearchBookResponse, SubjectResponse } from "@/types/response";
 import axios, { AxiosResponse } from "axios";
 
 const API = {
@@ -23,6 +23,8 @@ const API = {
       GET_ALL_BOOK: "https://openlibrary.org/subjects/love.json",
       SEARCH: (q: string, limit: number, page: number, fieldsString: string) =>
         `https://openlibrary.org/search.json?q=${q}&offset=${page * limit}&fields=${fieldsString}&limit=${limit}`,
+      GET_BOOK_BY_SUBJECT: (subject: string, page: number) =>
+        `https://openlibrary.org/subjects/${subject}.json?limit=6&offset=${page * 6}`,
     },
   },
   app: {
@@ -44,7 +46,7 @@ const API = {
       limit: number,
       page: number,
       fieldsString: string
-    ): Promise<AxiosResponse<Subjects>> => {
+    ): Promise<AxiosResponse<SearchBookResponse>> => {
       return API.apiInstance.get(
         API.API_PATH.BOOK.SEARCH(
           q === "" ? "ramdom" : q.replaceAll(" ", "+"),
@@ -52,6 +54,14 @@ const API = {
           page - 1,
           fieldsString
         )
+      );
+    },
+    getBookBySubject: (
+      subject: string,
+      page: number
+    ): Promise<AxiosResponse<SubjectResponse>> => {
+      return API.apiInstance.get(
+        API.API_PATH.BOOK.GET_BOOK_BY_SUBJECT(subject, page)
       );
     },
   },

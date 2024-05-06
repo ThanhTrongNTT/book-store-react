@@ -17,10 +17,6 @@ const route = () => {
         },
       ],
     },
-    {
-      path: "*",
-      element: <Navigate to={`/`} replace />,
-    },
   ];
 };
 

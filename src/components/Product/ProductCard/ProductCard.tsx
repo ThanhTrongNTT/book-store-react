@@ -1,15 +1,13 @@
 import ImageCustom from "@/components/Image/ImageCustom";
 import Modal from "@/components/Modal/Modal";
-import { Book } from "@/types/book";
+import { BookMain } from "@/types/book";
 import { useEffect, useState } from "react";
-import { FaShareFromSquare } from "react-icons/fa6";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { FaSquareXTwitter, FaLine } from "react-icons/fa6";
+import { FaLine, FaShareFromSquare, FaSquareXTwitter } from "react-icons/fa6";
 type ProductCardProps = {
-  book: Book;
-  index: number;
+  book: BookMain;
 };
-const MAX_LENGTH_TITLE = 50;
+const MAX_LENGTH_TITLE = 40;
 const ProductCard = (props: ProductCardProps) => {
   const [showModal, setShowModal] = useState(false);
   const shortenText = (text: string, maxLength: number) => {
@@ -20,10 +18,7 @@ const ProductCard = (props: ProductCardProps) => {
     const shortened = text.substr(0, maxLength); // Cắt đoạn văn bản ban đầu thành maxLength ký tự
     return `${shortened}...`; // Thêm dấu "..." vào cuối đoạn văn bản ngắn
   };
-  const imageScr =
-    props.book.cover_i === undefined
-      ? "https://hd-book-store.vercel.app/images/db_bg.jpeg"
-      : `https://covers.openlibrary.org/b/id/${props.book.cover_i}-M.jpg`;
+  const imageScr = props.book.image;
   const onClose = () => {
     setShowModal(false);
   };
@@ -38,7 +33,7 @@ const ProductCard = (props: ProductCardProps) => {
   return (
     <>
       <div
-        key={props.index}
+        key={props.book.id}
         className="h-[370px] w-[500px] flex p-2 m-5 shadow-2xl transition duration-300 ease-in-out hover:scale-90"
       >
         <ImageCustom
@@ -55,16 +50,10 @@ const ProductCard = (props: ProductCardProps) => {
           <div className="flex-1">
             <span className="text-base">
               <p className="inline-block">by</p>{" "}
-              <p className="font-bold inline-block">
-                {props.book.author_name ? props.book.author_name[0] : "Unknown"}
-              </p>
+              <p className="font-bold inline-block">{props.book.author}</p>
             </span>
             <span className="text-lg">
-              <p className="font-bold">
-                {props.book.first_publish_year
-                  ? props.book.first_publish_year
-                  : "Unknown"}
-              </p>
+              <p className="font-bold">{props.book.pushlishedYear}</p>
             </span>
           </div>
           <div className="flex justify-start content-center text-2xl text-red-600 cursor-pointer">

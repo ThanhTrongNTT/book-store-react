@@ -1,11 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
+import Genres from "@/views/Genres/Genres";
+import Search from "@/views/Search/Search";
 import loadable from "@loadable/component";
 
 const Dashboard = loadable(() => import("@/views/dashboard/Dashboard"), {
   fallback: (
-    <h1 className="h-screen bg-red-400 flex justify-center items-center content-center text-5xl font-bold">
-      Loading
-    </h1>
+    <div className="h-screen flex justify-center items-center content-center">
+      <div
+        className={`border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-primary`}
+      />
+    </div>
   ),
 });
 
@@ -14,6 +18,14 @@ const appRoute = () => {
     {
       path: "/",
       element: <Dashboard />,
+    },
+    {
+      path: "/genre",
+      element: <Genres />,
+    },
+    {
+      path: "/search",
+      element: <Search />,
     },
   ];
 };

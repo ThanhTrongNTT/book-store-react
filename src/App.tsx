@@ -1,9 +1,9 @@
 import { ConfigProvider } from "antd";
 import enUS from "antd/es/locale/en_US";
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
 import i18n from "./i18n/i18n";
 import LayoutWrapper from "./layouts/LayoutWrapper";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   const [antdLocale, setAntdLocale] = useState(enUS);
