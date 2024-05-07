@@ -48,5 +48,4 @@ export interface SearchBookParam {
   search: string;
   limit: number;
   page: number;
-  fieldsString: string;
 }

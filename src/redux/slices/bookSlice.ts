@@ -1,6 +1,6 @@
 import API from "@/libs/api";
 import { BookMain, SearchGenre } from "@/types/book";
-import { Doc } from "@/types/response";
+import { Work } from "@/types/response";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface BookState {
@@ -75,7 +75,7 @@ export const bookSlice = createSlice({
       .addCase(fetchBook.fulfilled, (state, action) => {
         state.isLoadingPopular = false;
         const selectedBook: BookMain[] = action.payload.works.map(
-          (book: Doc) => {
+          (book: Work) => {
             return {
               title: book.title,
               image: book.cover_id
@@ -101,7 +101,7 @@ export const bookSlice = createSlice({
       .addCase(popular.fulfilled, (state, action) => {
         state.isLoadingPopular = false;
         const selectedBook: BookMain[] = action.payload.works.map(
-          (book: Doc) => {
+          (book: Work) => {
             return {
               title: book.title,
               image: book.cover_id
@@ -127,7 +127,7 @@ export const bookSlice = createSlice({
       .addCase(recommended.fulfilled, (state, action) => {
         state.isLoadingRecommended = false;
         const selectedBook: BookMain[] = action.payload.works.map(
-          (book: Doc) => {
+          (book: Work) => {
             return {
               title: book.title,
               image: book.cover_id
@@ -152,7 +152,7 @@ export const bookSlice = createSlice({
       .addCase(newBook.fulfilled, (state, action) => {
         state.isLoadingNewBook = false;
         const selectedBook: BookMain[] = action.payload.works.map(
-          (book: Doc) => {
+          (book: Work) => {
             return {
               title: book.title,
               image: book.cover_id

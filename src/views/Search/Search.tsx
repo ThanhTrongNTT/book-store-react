@@ -1,67 +1,76 @@
 // import Product from "@/components/Product/Product";
 // import { useAppDispatch } from "@/redux/store";
-import React from "react";
+import Product from "@/components/Product/Product";
+import {
+  searchBook,
+  selectIsLoading,
+  selectSearchBookList,
+  selectTotal,
+} from "@/redux/slices/searchSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { SearchParams } from "@/types/search";
+import React, { useEffect, useState } from "react";
 
 const Search = () => {
-  // const dispatch = useAppDispatch();
-  // const [bookList, setBookList] = useState<Book[]>();
-  // const [page, setPage] = useState(1);
-  // const [totalElement, setTotalElement] = useState(0);
-  // const [searchWord, setSearchWord] = useState("");
-  // const [isLoaded, setIsLoaded] = useState(false);
+  const urlParams = new URLSearchParams(window.location.search);
+  const dispatch = useAppDispatch();
+  const searchBooks = useAppSelector(selectSearchBookList);
+  const loadingBooks = useAppSelector(selectIsLoading);
+  const totalElement = useAppSelector(selectTotal);
+  const [searchWord, setSearchWord] = useState(
+    urlParams.get("searchWord") || ""
+  );
+  const [page, setPage] = useState(1);
+  const [searchParam, setSearchParam] = useState<SearchParams>({
+    searchWord: searchWord,
+    limit: 6,
+    page: page,
+  });
 
-  // Handles limit change
-  // const handleLimitChange = (current: number, size: number) => {
-  //   setPage(current);
-  //   setLimit(size);
-  // };
-  // // Search
-  // const handleSearchBook = async () => {
-  //   setIsLoaded(true);
-  //   const res = await API.app.searchBook(searchWord, limit, page, fieldsString);
-  //   const data: Subjects = res.data;
-  //   if (res !== null && data !== null) {
-  //     setTotalElement(data.numFound);
-  //     setBookList(data.docs);
-  //     setIsLoaded(false);
-  //   }
-  // };
+  // Search
+  const handlePageChange = async (page: number) => {
+    if (page < 1) {
+      setPage(1);
+      setSearchParam((prev) => ({ ...prev, page: page }));
+      return;
+    }
+    setPage(page);
+    setSearchParam((prev) => ({ ...prev, page: page }));
+  };
 
-  // const handleSearchWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPage(1);
-  //   setSearchWord(e.target.value);
-  // };
+  const handleSearchWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchWord(e.target.value);
+  };
 
-  // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === "Enter") {
-  //     handleSearchBook();
-  //   }
-  // };
-
-  // const fieldsString =
-  //   "key,title,author_name,first_publish_year,subject,ia_collection,cover_i,cover_edition_key,edition_count";
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setPage(1);
+      setSearchParam((prev) => ({
+        ...prev,
+        searchWord: searchWord,
+        page: page,
+      }));
+      dispatch(searchBook(searchParam));
+    }
+  };
 
   // Call searchBook whenever searchWord changes
-  // useEffect(() => {
-  //   const searchBook = async () => {
-  //     setIsLoaded(true);
-  //     const res = await API.app.searchBook(
-  //       searchWord,
-  //       limit,
-  //       page,
-  //       fieldsString
-  //     );
-  //     const data: Subjects = res.data;
-  //     if (res !== null && data !== null) {
-  //       setTotalElement(data.numFound);
-  //       setBookList(data.docs);
-  //       setIsLoaded(false);
-  //     }
-  //   };
-  //   searchBook();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [page, limit]);
-  return <div className="h-screen">{/*<Product /> */}</div>;
+  useEffect(() => {
+    dispatch(searchBook(searchParam));
+  }, [searchParam, dispatch]);
+  return (
+    <Product
+      bookList={searchBooks}
+      isLoaded={loadingBooks}
+      searchParam={searchParam}
+      searchWord={searchWord}
+      page={page}
+      totalElement={totalElement}
+      handleSearchWordChange={handleSearchWordChange}
+      handleKeyDown={handleKeyDown}
+      handlePageChange={handlePageChange}
+    />
+  );
 };
 
 export default Search;

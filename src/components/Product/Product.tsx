@@ -1,35 +1,27 @@
 import React from "react";
-import SideBar, { Category } from "../SideBar/SideBar";
 import ListProduct from "./ListProduct/ListProduct";
 import { Pagination } from "antd";
-import { Book } from "@/types/book";
+import { BookMain } from "@/types/book";
 import SearchBar from "../SearchBar/SearchBar";
+import { SearchParams } from "@/types/search";
 type ProductProps = {
-  categories: Category[];
-  handleNavItemClick: (index: number) => void;
-  handleSearchWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  searchWord: string;
-  bookList: Book[] | undefined;
+  bookList: BookMain[] | undefined;
   isLoaded: boolean;
+  searchParam: SearchParams;
+  searchWord: string;
   page: number;
   totalElement: number;
-  limit: number;
+  handleSearchWordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   handlePageChange: (page: number) => void;
-  handleLimitChange: (current: number, size: number) => void;
 };
 const Product = (props: ProductProps) => {
   return (
     <>
-      <div className="flex p-10 mx-auto snap-start">
-        {/* Side bar */}
-        <SideBar
-          handleNavItemClick={props.handleNavItemClick}
-          categories={props.categories}
-        />
+      <div className="flex p-10 mx-auto snap-start w-full">
         {/* List of products */}
-        <div className="flex flex-col">
-          <div className="content-center items-center">
+        <div className="flex flex-col w-full">
+          <div className="mx-auto content-center items-center w-1/2">
             <SearchBar
               handleSearchWordChange={props.handleSearchWordChange}
               handleKeyDown={props.handleKeyDown}
@@ -39,18 +31,16 @@ const Product = (props: ProductProps) => {
           <ListProduct
             bookList={props.bookList}
             isLoaded={props.isLoaded}
-            limit={props.limit}
+            limit={props.searchParam.limit}
           />
           <div className="m-4 mx-auto">
             <Pagination
               defaultCurrent={1}
               current={props.page}
-              pageSize={props.limit}
+              pageSize={props.searchParam.limit}
               total={props.totalElement}
               onChange={props.handlePageChange}
-              showSizeChanger
-              onShowSizeChange={props.handleLimitChange}
-              pageSizeOptions={[3, 6, 12, 24]}
+              showSizeChanger={false}
             />
           </div>
         </div>

@@ -1,4 +1,18 @@
+import { useState } from "react";
+import SearchBar from "../SearchBar/SearchBar";
+import { useNavigate } from "react-router-dom";
+
 const Banner = () => {
+  const navigate = useNavigate();
+  const [searchParam, setSearchParam] = useState("");
+  const handleSearchWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchParam(e.target.value);
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      navigate(`/search?searchWord=${searchParam}`);
+    }
+  };
   return (
     <>
       <div className="snap-start bg-gradient-to-r from-primary to-white  px-20 flex items-center h-screen">
@@ -14,6 +28,11 @@ const Banner = () => {
               dignissimos accusantium eveniet atque voluptate saepe, minima enim
               ex temporibus. Blanditiis, quae!
             </p>
+            <SearchBar
+              searchWord={searchParam}
+              handleKeyDown={handleKeyDown}
+              handleSearchWordChange={handleSearchWordChange}
+            />
           </div>
 
           {/* Right Slide */}

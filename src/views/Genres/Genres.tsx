@@ -89,7 +89,7 @@ const Genres = () => {
             pageSize={limit}
             total={total}
             onChange={handlePageChange}
-            showSizeChanger
+            showSizeChanger={false}
           />
         </div>
       </div>

@@ -11,8 +11,8 @@ export interface SubjectResponse {
 export interface Work {
   title: string;
   cover_id: number;
-  first_pusblish_year: number;
-  authors: [];
+  first_publish_year: number;
+  authors: Author[];
   key: string;
 }
 
@@ -28,9 +28,9 @@ export interface SearchBookResponse {
 
 export interface Doc {
   title: string;
-  cover_id: number;
+  cover_i: number;
   first_publish_year: number;
-  authors: Author[];
+  author_name: string;
   key: string;
   // Add other properties if needed
 }

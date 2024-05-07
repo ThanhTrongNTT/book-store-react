@@ -8,12 +8,12 @@ type SearchBarProps = {
 
 const SearchBar = (props: SearchBarProps) => {
   return (
-    <div className="bg-white w-1/2 border-r h-10 px-4 shadow-xl flex items-center rounded-lg ml-10 mb-5">
+    <div className="bg-white border-r h-10 px-4 text-xl shadow-xl flex items-center rounded-lg mb-5 content-center">
       <FaSearch id="search-icon" className="text-blue-600" />
       <input
         type="text"
         placeholder="Type to search"
-        className="bg-transparent border-none h-full text-xl w-full ml-1 focus:outline-none"
+        className="bg-transparent border-none h-full w-full ml-1 focus:outline-none"
         value={props.searchWord}
         onChange={(e) => props.handleSearchWordChange(e)}
         onKeyDown={(e) => props.handleKeyDown(e)}
