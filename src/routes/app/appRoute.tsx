@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import Detail from "@/views/Detail/Detail";
 import Genres from "@/views/Genres/Genres";
 import Search from "@/views/Search/Search";
 import loadable from "@loadable/component";
@@ -22,6 +23,10 @@ const appRoute = () => {
     {
       path: "/genre",
       element: <Genres />,
+    },
+    {
+      path: "/detail/works/:id",
+      element: <Detail />,
     },
     {
       path: "/search",

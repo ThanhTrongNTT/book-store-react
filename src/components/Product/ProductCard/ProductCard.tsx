@@ -4,11 +4,13 @@ import { BookMain } from "@/types/book";
 import { useEffect, useState } from "react";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaLine, FaShareFromSquare, FaSquareXTwitter } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 type ProductCardProps = {
   book: BookMain;
 };
 const MAX_LENGTH_TITLE = 40;
 const ProductCard = (props: ProductCardProps) => {
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const shortenText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) {
@@ -34,7 +36,10 @@ const ProductCard = (props: ProductCardProps) => {
     <>
       <div
         key={props.book.id}
-        className="h-[370px] w-[500px] flex p-2 m-5 shadow-2xl transition duration-300 ease-in-out hover:scale-90"
+        className="h-[370px] w-[500px] flex p-2 m-5 shadow-2xl transition duration-300 ease-in-out hover:scale-90 cursor-pointer"
+        onClick={() =>
+          navigate(`/detail${props.book.id}?author=${props.book.author}`)
+        }
       >
         <ImageCustom
           alt={props.book.title}

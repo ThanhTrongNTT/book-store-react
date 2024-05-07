@@ -31,12 +31,13 @@ export interface Author {
 }
 
 export interface BookDetail {
+  id: string; // Book ID
   description: string; // Book description
   title: string; // Book title
   image: string; // Book cover image
-  subjectPlaces: string[];
-  subjectTimes: string[];
-  subjects: string[];
+  subjectPlaces: string;
+  subjectTimes: string;
+  subjects: string;
 }
 
 export interface SearchGenre {

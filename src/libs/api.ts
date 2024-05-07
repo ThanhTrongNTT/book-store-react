@@ -1,4 +1,8 @@
-import { SearchBookResponse, SubjectResponse } from "@/types/response";
+import {
+  BookWork,
+  SearchBookResponse,
+  SubjectResponse,
+} from "@/types/response";
 import axios, { AxiosResponse } from "axios";
 
 const API = {
@@ -18,9 +22,7 @@ const API = {
       LOGIN: "/example/login",
     },
     BOOK: {
-      GET_BOOK: (limit: number, page: number, q: string) =>
-        `https://openlibrary.org/subjects/love.json?q=${q}&offset=${page * limit}&limit=${limit}`,
-      GET_ALL_BOOK: "https://openlibrary.org/subjects/love.json",
+      GET_BOOK: (id: string) => `https://openlibrary.org/works/${id}.json`,
       SEARCH: (q: string, limit: number, page: number) =>
         `https://openlibrary.org/search.json?q=${q}&offset=${page * limit}&fields=key,title,author_name,first_publish_year,cover_i&limit=${limit}`,
       GET_BOOK_BY_SUBJECT: (subject: string, page: number) =>
@@ -31,15 +33,8 @@ const API = {
     login: (): Promise<AxiosResponse<void>> => {
       return API.apiInstance.post(API.API_PATH.APP.LOGIN);
     },
-    getBook: (
-      limit: number,
-      page: number,
-      q: string
-    ): Promise<AxiosResponse<void>> => {
-      return API.apiInstance.get(API.API_PATH.BOOK.GET_BOOK(limit, page, q));
-    },
-    getAllBook: (): Promise<AxiosResponse<void>> => {
-      return API.apiInstance.get(API.API_PATH.BOOK.GET_ALL_BOOK);
+    getBook: (id: string): Promise<AxiosResponse<BookWork>> => {
+      return API.apiInstance.get(API.API_PATH.BOOK.GET_BOOK(id));
     },
     searchBook: (
       q: string,

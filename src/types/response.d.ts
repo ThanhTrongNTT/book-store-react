@@ -36,10 +36,16 @@ export interface Doc {
 }
 
 export interface BookWork {
-  description: string;
+  key: string;
+  description: string | Description;
   title: string;
   covers: number[];
   subject_places: string[];
   subject_times: string[];
   subjects: string[];
+}
+
+export interface Description {
+  type: string;
+  value: string;
 }
